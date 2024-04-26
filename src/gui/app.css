@@ -1,0 +1,16 @@
+
+.textField {
+        -fx-background-color: transparent;
+        -fx-border-width: 0 0 2 0;
+        -fx-border-color: #ccc;
+        -fx-font-size: 14px;
+}
+.textField:focused {
+    -fx-border-color: #aad4d9;
+}
+.button {
+    -fx-background-color: #3498db; /* Boja pozadine */
+}
+.button:hover {
+    -fx-background-color: #2980b9; /* Boja pozadine prilikom hover-a */
+}
