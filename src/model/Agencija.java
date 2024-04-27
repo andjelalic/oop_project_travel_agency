@@ -39,7 +39,7 @@ public class Agencija {
         return rezervacije;
     }
 
-    public List<Smjestaj> getSmestaj() {
+    public List<Smjestaj> getSmestaji() {
         return smjestaj;
     }
 

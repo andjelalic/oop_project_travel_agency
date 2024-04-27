@@ -21,7 +21,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <Label layoutX="32.0" layoutY="351.0" text="Broj admina:">
+            <Label fx:id="brojAdminaLbl" layoutX="32.0" layoutY="351.0" text="Broj admina:">
                <font>
                   <Font size="19.0" />
                </font>
@@ -72,3 +72,4 @@
       </AnchorPane>
    </left>
 </BorderPane>
+

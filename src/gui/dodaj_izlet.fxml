@@ -8,7 +8,7 @@
 <AnchorPane fx:id="cityImageView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AdminController">
    <children>
       <TextField layoutX="154.0" layoutY="105.0" promptText="Destinacija" styleClass="textField" stylesheets="@app.css" />
-      <TextField layoutX="154.0" layoutY="206.0" promptText="Cijena izlaska" styleClass="textField" stylesheets="@app.css" />
+      <TextField layoutX="154.0" layoutY="206.0" promptText="Cijena izleta" styleClass="textField" stylesheets="@app.css" />
       <TextField layoutX="154.0" layoutY="54.0" prefHeight="32.0" prefWidth="173.0" promptText="Naziv" styleClass="textField" stylesheets="@app.css" />
       <TextField layoutX="154.0" layoutY="155.0" promptText="Datum polaska" styleClass="textField" stylesheets="@app.css" />
       <Button layoutX="148.0" layoutY="263.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="182.0" style="-fx-background-color: #abd5da;" text="Dodaj" textFill="#0679ae">

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -11,8 +12,9 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="listaRezervacijaLbl" layoutX="123.0" layoutY="96.0" prefHeight="27.0" prefWidth="112.0" text="Spisak rezervacija" />
       <Label layoutX="312.0" layoutY="62.0" text="Agencija je zaradilia:" />
       <Label layoutX="312.0" layoutY="101.0" prefHeight="17.0" prefWidth="108.0" text="Ostalo za doplatu:" />
+      <Label fx:id="rezervacijeLbl" layoutX="106.0" layoutY="93.0" prefHeight="42.0" prefWidth="141.0" text="Label" />
+      <Button fx:id="dugme" layoutX="210.0" layoutY="271.0" mnemonicParsing="false" onAction="#naDugme" text="Button" />
    </children>
 </AnchorPane>

@@ -105,14 +105,14 @@ public class LogInController implements Initializable{
     }
     public boolean postojeciRacun(String jmbg, String brojRacuna){
         List <BankovniRacun> bankovniRacuni = agencija.getBankovniRacuni();
-            for(BankovniRacun br : bankovniRacuni){
-                //jmbg provjera gleda da li je jmbg od agencije (duzine 10)
-                if(br.getJmbg().equals(jmbg)&& br.jmbgProvjera(jmbg)
-                       && br.getBrojRacuna().equals(brojRacuna)){
-                    return true;
-                }
-
+        for(BankovniRacun br : bankovniRacuni){
+            //jmbg provjera gleda da li je jmbg od agencije (duzine 10)
+            if(br.getJmbg().equals(jmbg)&& br.jmbgProvjera(jmbg)
+                    && br.getBrojRacuna().equals(brojRacuna)){
+                return true;
             }
+
+        }
         return false;
     }
     public static int klijentID(List<Korisnik> korisnici) {
@@ -131,7 +131,7 @@ public class LogInController implements Initializable{
         }
         return null;
     }
-public boolean postojeceKorisnickoIme(String korisnickoIme){
+    public boolean postojeceKorisnickoIme(String korisnickoIme){
         List <Korisnik> korisnici = agencija.getKorisnici();
         for(Korisnik k : korisnici){
             if(k.podudaranjeKorisnickoIme(korisnickoIme)){
@@ -139,7 +139,7 @@ public boolean postojeceKorisnickoIme(String korisnickoIme){
             }
         }
         return false;
-}
+    }
     public boolean validnaPrijava(String korisnicko_ime, String lozinka){
         List <Korisnik> korisnici = agencija.getKorisnici();
         for(Korisnik k : korisnici){
@@ -184,33 +184,33 @@ public boolean postojeceKorisnickoIme(String korisnickoIme){
                 lozinkaRegistracija.getText().isBlank() || lozinkaPotvrda.getText().isBlank()) {
             return false;
         }
-            return true;
+        return true;
     }
     public void registrationOnAction(ActionEvent event) throws SQLException, IOException{
-            if( !jeIspravanUnos()){
-                registrationMessageLabel.setText("Nedovoljno podataka za registraciju, popunite sva polja");
-            }else if(postojeceKorisnickoIme(korisnickoImeR.getText())){
-                registrationMessageLabel.setText("Korisničko ime je zauzeto");
-            }
-            else if(!postojeciRacun(jmbg.getText(), bankovniRacun.getText())){
-                registrationMessageLabel.setText("Nepostojeći bankovni račun");
-            } else if(!lozinkaRegistracija.getText().equals(lozinkaPotvrda.getText())){
-                registrationMessageLabel.setText("Netačna potvrda lozinke");
-            }
-            else{
-                registrationMessageLabel.setText("");
-                BazaKonekcija.registerClient(
-                        klijentID(agencija.getKorisnici()),
-                        ime.getText(),
-                        prezime.getText(),
-                        brojTelefona.getText(),
-                        jmbg.getText(),
-                        bankovniRacun.getText(),
-                        korisnickoImeR.getText(),
-                        lozinkaRegistracija.getText()
-                );
-                switchToLogIn(event);
-                }
+        if( !jeIspravanUnos()){
+            registrationMessageLabel.setText("Nedovoljno podataka za registraciju, popunite sva polja");
+        }else if(postojeceKorisnickoIme(korisnickoImeR.getText())){
+            registrationMessageLabel.setText("Korisničko ime je zauzeto");
+        }
+        else if(!postojeciRacun(jmbg.getText(), bankovniRacun.getText())){
+            registrationMessageLabel.setText("Nepostojeći bankovni račun");
+        } else if(!lozinkaRegistracija.getText().equals(lozinkaPotvrda.getText())){
+            registrationMessageLabel.setText("Netačna potvrda lozinke");
+        }
+        else{
+            registrationMessageLabel.setText("");
+            BazaKonekcija.registerClient(
+                    klijentID(agencija.getKorisnici()),
+                    ime.getText(),
+                    prezime.getText(),
+                    brojTelefona.getText(),
+                    jmbg.getText(),
+                    bankovniRacun.getText(),
+                    korisnickoImeR.getText(),
+                    lozinkaRegistracija.getText()
+            );
+            switchToLogIn(event);
+        }
 
 
         //to do (uslov za provjeru poklapanja lozinke)
