@@ -9,17 +9,20 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.*;
-
+import javafx.fxml.Initializable;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class AdminController{
     public AdminController() throws SQLException {
@@ -77,6 +80,19 @@ public class AdminController{
     private TextField tipPrevozaTf;
     @FXML
     private Button dodajPutovanje;
+    @FXML
+    private TextField nazivIzletaTf;
+    @FXML
+    private TextField destinacijaIzletaTf;
+    @FXML
+    private TextField datumPolaskaIzletaTf;
+    @FXML
+    private TextField cijenaIzletaTf;
+    @FXML
+    private Label dodajIzletStatusLbl;
+    @FXML
+    private Label dodajIzletErrorLbl;
+
 
 
 
@@ -205,19 +221,37 @@ public class AdminController{
             dodajAdminaStatusLbl.setText("Admin je uspješno dodat!");
         }
     }
-    public boolean jePotpunUnos(){
+    public boolean jePotpunUnosPutovanja(){
         if(nazivPutovanjaTf.getText().isBlank() || destinacijaPutovanjaTf.getText().isBlank() ||
                 nazivSmjestajaTf.getText().isBlank() || datumPolaskaPutovanjaTf.getText().isBlank() ||
+                vrstaSobeTf.getText().isBlank() || tipPrevozaTf.getText().isBlank() ||
                 datumPovratkaPutovanjaTf.getText().isBlank() || brojZvjezdicaTf.getText().isBlank() ||
                 cijenaPutovanjaTf.getText().isBlank() || cijenaPoNocenjuTf.getText().isBlank()) {
             return false;
         }
         return true;
     }
+    public boolean jePotpunUnosIzleta(){
+        if(nazivIzletaTf.getText().isBlank() || destinacijaIzletaTf.getText().isBlank() ||
+                datumPolaskaIzletaTf.getText().isBlank() || cijenaIzletaTf.getText().isBlank()) {
+            return false;
+        }
+        return true;
+    }
+
     public void dodajPutovanjeOnAction(ActionEvent event) throws SQLException, IOException{
-        if(!jePotpunUnos()){
+        if(!jePotpunUnosPutovanja()) {
             dodajPutovanjeErrorLbl.setText("Nedovoljno podataka, popunite sva polja");
-        }else{
+
+        }else if (!UpravljanjeAranzman.validanDatum(datumPolaskaPutovanjaTf.getText())
+                || !UpravljanjeAranzman.validanDatum(datumPovratkaPutovanjaTf.getText())){
+            dodajPutovanjeErrorLbl.setText("Unijeli ste neispravan format datuma (zahtijeva se yyyy-mm-dd)");
+        }
+
+        else if (UpravljanjeAranzman.ispravanUnosDatuma(datumPolaskaPutovanjaTf.getText(), datumPovratkaPutovanjaTf.getText())){
+            dodajPutovanjeErrorLbl.setText("Neispravan unos datuma!");
+        }
+        else{
             dodajPutovanjeErrorLbl.setText("");
             Smjestaj smjestaj = new Smjestaj(
                     pronadjiID(agencija.getSmestaji()),
@@ -242,6 +276,26 @@ public class AdminController{
             dodajPutovanjeStatusLbl.setText("Putovanje je uspješno dodano");
         }
     }
-
-
+    public void dodajIzletOnAction(ActionEvent event) throws SQLException, IOException {
+        if(!jePotpunUnosIzleta()) {
+            dodajIzletErrorLbl.setText("Nedovoljno podataka, popunite sva polja");
+        } else if (!UpravljanjeAranzman.validanDatum(datumPolaskaIzletaTf.getText())) {
+            dodajIzletErrorLbl.setText("Unijeli ste neispravan format datuma (zahtijeva se yyyy-mm-dd)");
+        }
+        else {
+            dodajIzletErrorLbl.setText("");
+            UpravljanjeAranzman.dodajAranzman(agencija.getAranzmani(),
+                    new Aranzman(
+                            pronadjiID(agencija.getAranzmani()),
+                            nazivIzletaTf.getText(),
+                            destinacijaIzletaTf.getText(),
+                            "Autobus",
+                            LocalDate.parse(datumPolaskaIzletaTf.getText()),
+                            LocalDate.parse(datumPolaskaIzletaTf.getText()),
+                            Double.parseDouble(cijenaIzletaTf.getText()),
+                            null
+                    ));
+            dodajIzletStatusLbl.setText("Izlet je uspješno dodan");
+        }
+    }
 }

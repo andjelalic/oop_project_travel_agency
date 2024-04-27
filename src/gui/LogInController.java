@@ -173,7 +173,19 @@ public class LogInController implements Initializable{
             stage.setScene(scene);
             stage.show();
         } else {
-            // Ostatak koda za prijavu
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("klijent.fxml"));
+            Parent root = loader.load();
+            ClientController klijentController = loader.getController();
+
+
+            Klijent klijent = (Klijent) vratiKorisnikaPoImenu(korisnickoImeLogIn.getText());
+            klijentController.setKlijent(klijent);
+
+            // Promijeni prikaz na AdminPage
+            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
         }
     }
 
