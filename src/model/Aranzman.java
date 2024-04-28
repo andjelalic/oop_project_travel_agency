@@ -6,12 +6,9 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
 
-/**
- * Klasa koja predstavlja aranžman.
- */
 public class Aranzman implements Identifiable {
     private int id;
-    private String ime;
+    private String naziv;
     private String destinacija;
     private String prevoz;
     private LocalDate datumPolaska;
@@ -20,33 +17,23 @@ public class Aranzman implements Identifiable {
     private Smjestaj smjestaj;
 
 
-    // Konstante za rok uplate
+
     public final static int POCETAK_ROKA_UPLATE = 16;
     public final static int KRAJ_ROKA_UPLATE = 14;
 
-    // Komparatori za poređenje
+
     public final static Comparator<Aranzman> uporediID = (i1, i2) -> Integer.compare(i1.id, i2.id);
 
-    /**
-     * Konstruktor za inicijalizaciju aranžmana.
-     * @param id              Identifikator aranžmana
-     * @param ime            Naziv putovanja
-     * @param destinacija     Destinacija
-     * @param prevoz       Tip prevoza
-     * @param datumPolaska        Datum polaska
-     * @param datumDolaska     Datum dolaska
-     * @param cijena           Cijena aranžmana
-     * @param accommodation   Smještaj
-     */
-    public Aranzman(int id, String ime, String destinacija, String prevoz, LocalDate datumPolaska, LocalDate datumDolaska, double cijena, Smjestaj accommodation) {
+
+    public Aranzman(int id, String naziv, String destinacija, String prevoz, LocalDate datumPolaska, LocalDate datumDolaska, double cijena, Smjestaj smjestaj) {
         this.id = id;
-        this.ime = ime;
+        this.naziv = naziv;
         this.destinacija = destinacija;
         this.prevoz = prevoz;
         this.datumPolaska = datumPolaska;
         this.datumDolaska = datumDolaska;
         this.cijena = cijena;
-        this.smjestaj = accommodation;
+        this.smjestaj = smjestaj;
     }
 
     public static int razmakIzmedjuDatuma(LocalDate d1, LocalDate d2) {
@@ -70,8 +57,8 @@ public class Aranzman implements Identifiable {
      * Metoda koja vraća naziv putovanja.
      * @return Naziv putovanja
      */
-    public String getIme() {
-        return ime;
+    public String getNaziv() {
+        return naziv;
     }
 
     /**
@@ -155,44 +142,58 @@ public class Aranzman implements Identifiable {
     @Override
     public String toString() {
         if (smjestaj != null)
-            return ime + " Destinacija: " + destinacija + " Prevoz: " + prevoz + " Polazak: " + datumPolaska + " Dolazak: " + datumDolaska + " Cijena: " + cijena + " " + smjestaj;
+            return naziv + " Destinacija: " + destinacija + " Prevoz: " + prevoz + " Polazak: " + datumPolaska + " Dolazak: " + datumDolaska + " Cijena: " + cijena + " " + smjestaj;
         else
-            return ime + " Destinacija: " + destinacija + " Prevoz: " + prevoz + " Polazak: " + datumPolaska + " Dolazak: " + datumDolaska + " Cijena: " + cijena;
+            return naziv + " Destinacija: " + destinacija + " Prevoz: " + prevoz + " Polazak: " + datumPolaska + " Dolazak: " + datumDolaska + " Cijena: " + cijena;
     }
 
 
-    /**
-     * Metoda koja vraća koliki je iznos za uplatu.
-     * Ako je prošao rok za uplatu, klijent koji želi da rezerviše ovaj aranžman,
-     * mora da plati punu cijenu, inače se plaća 50% cijene.
-     * @return Iznos za uplatu aranžmana
-     */
+
     public double iznosUplate() {
         return jeProsaoRokPlacanja() ? punaCijena() : polaCijene();
     }
 
-    /**
-     * Metoda koja vraća da li je prošao rok za uplatu.
-     * @return True ako jeste prošao rok, False inače.
-     */
+
     public boolean jeProsaoRokPlacanja() {
         return daniDoPolaska() < KRAJ_ROKA_UPLATE;
     }
 
-    /**
-     * Metoda koja računa koliko je još dana ostalo do polaska na put.
-     * @return Broj dana do polaska
-     */
+
     public int daniDoPolaska() {
         return razmakIzmedjuDatuma(LocalDate.now(), datumPolaska);
     }
 
-    /**
-     * Metoda koja provjerava da li je ostalo 3 dana do polaska,
-     * da bi se klijenti za koji su rezervisali taj aranžman mogli obavjestiti.
-     * @return True ako je ostalo 3 dana, False inače.
-     */
+
     public boolean jeURoku() {
         return daniDoPolaska() >= KRAJ_ROKA_UPLATE && daniDoPolaska() <= POCETAK_ROKA_UPLATE;
     }
+
+
+    public boolean podudaranjeDestinacije(String s) {
+        return destinacija.equals(s);
+    }
+
+
+    public boolean podudaranjePrevoza(String s) {
+        return prevoz.equals(s);
+    }
+
+
+    public boolean manjaOdDatogIznosa(Double iznos) {
+        return punaCijena() <= iznos;
+    }
+
+
+    public boolean jePoslije(LocalDate date) {
+        return !datumPolaska.isBefore(date);
+    }
+
+
+    public boolean jePrije(LocalDate datum) {
+        return !datumDolaska.isAfter(datum);
+    }
+    public final static Comparator<Aranzman> porediCijenu = (c1, c2) -> Double.compare(c1.punaCijena(), c2.punaCijena());
+    public final static Comparator<Aranzman> porediPremaDatumuPolaska = (o1, o2) -> o1.getDatumPolaska().compareTo(o2.getDatumPolaska());
+
+
 }

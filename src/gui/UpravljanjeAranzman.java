@@ -14,7 +14,7 @@ public class UpravljanjeAranzman {
         aranzmani.add(aranzman);
         BazaKonekcija.addArrangement(
                 aranzman.getId(),
-                aranzman.getIme(),
+                aranzman.getNaziv(),
                 aranzman.getDestinacija(),
                 aranzman.getPrevoz(),
                 aranzman.getDatumPolaska(),

@@ -7,6 +7,7 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -18,44 +19,53 @@
       <ComboBox fx:id="vrstaAranzmana" layoutX="30.0" layoutY="29.0" prefWidth="150.0" promptText="Putovanje/Izlet" styleClass="textField" stylesheets="@app.css" />
       <ComboBox fx:id="vrstaSobe" layoutX="30.0" layoutY="109.0" prefWidth="150.0" promptText="Vrsta sobe" styleClass="textField" stylesheets="@app.css" />
       <TextField fx:id="aranzmaniDestinacija" layoutX="30.0" layoutY="65.0" prefHeight="32.0" prefWidth="150.0" promptText="Destinacija" styleClass="textField" stylesheets="@app.css" />
-      <TextField fx:id="aranzmaniCijenaDo" layoutX="129.0" layoutY="232.0" prefHeight="32.0" prefWidth="50.0" promptText="DO" styleClass="textField" stylesheets="@app.css" />
-      <TextField fx:id="aranzmaniCijenaOd" layoutX="68.0" layoutY="232.0" prefHeight="25.0" prefWidth="50.0" promptText="OD" styleClass="textField" stylesheets="@app.css" />
+      <TextField fx:id="aranzmaniCijenaDo" layoutX="91.0" layoutY="232.0" prefHeight="32.0" prefWidth="50.0" promptText="DO" styleClass="textField" stylesheets="@app.css" />
       <Label layoutX="12.0" layoutY="232.0" prefHeight="32.0" prefWidth="50.0" text="Cijena:">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
-      <Label layoutX="118.0" layoutY="230.0" prefHeight="25.0" prefWidth="23.0" text="-">
+      <Label layoutX="68.0" layoutY="230.0" prefHeight="25.0" prefWidth="23.0" text="-">
          <font>
             <Font size="25.0" />
          </font>
       </Label>
-      <ListView fx:id="listaAranzmana" layoutX="195.0" layoutY="29.0" prefHeight="253.0" prefWidth="291.0" />
-      <Button layoutX="18.0" layoutY="355.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="150.0" style="-fx-background-color: BLACK; -fx-background-radius: 20; -fx-cursor: hand;" text="Prikaži" textFill="WHITE">
+      <ListView fx:id="listaAranzmana" layoutX="195.0" layoutY="29.0" prefHeight="192.0" prefWidth="291.0" />
+      <Button layoutX="18.0" layoutY="355.0" mnemonicParsing="false" onAction="#prikaziRezervacije" prefHeight="31.0" prefWidth="150.0" style="-fx-background-color: BLACK; -fx-background-radius: 20; -fx-cursor: hand;" text="Prikaži" textFill="WHITE">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <Button layoutX="186.0" layoutY="354.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="291.0" style="-fx-background-color: #ffffff; -fx-border-color: black; -fx-border-radius: 20; -fx-cursor: hand;" text="Rezerviši">
+      <Button layoutX="195.0" layoutY="354.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="291.0" style="-fx-background-color: #ffffff; -fx-border-color: black; -fx-border-radius: 20; -fx-cursor: hand;" text="Rezerviši">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <Label layoutX="12.0" layoutY="275.0" text="Sortira prema:">
+      <Label layoutX="18.0" layoutY="266.0" text="Sortira prema:">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <RadioButton layoutX="18.0" layoutY="300.0" mnemonicParsing="false" text="cijeni">
+      <RadioButton fx:id="rb1" layoutX="18.0" layoutY="291.0" mnemonicParsing="false" selected="true" text="cijeni">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <toggleGroup>
+            <ToggleGroup fx:id="tg" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="rb2" layoutX="18.0" layoutY="317.0" mnemonicParsing="false" text="vremenu do polaska" toggleGroup="$tg">
          <font>
             <Font size="14.0" />
          </font>
       </RadioButton>
-      <RadioButton layoutX="18.0" layoutY="326.0" mnemonicParsing="false" text="vremenu do polaska">
+      <PasswordField layoutX="280.0" layoutY="295.0" prefHeight="32.0" prefWidth="194.0" promptText="Unesite lozinku za potvrdu" styleClass="textField" stylesheets="@app.css" />
+      <TextField fx:id="datumePolaska" layoutX="212.0" layoutY="232.0" prefHeight="32.0" prefWidth="117.0" promptText="Datum polaska" styleClass="textField" stylesheets="@app.css" />
+      <TextField fx:id="datumPovratka" layoutX="357.0" layoutY="232.0" prefHeight="32.0" prefWidth="117.0" promptText="Datum povratka" styleClass="textField" stylesheets="@app.css" />
+      <Label layoutX="333.0" layoutY="230.0" prefHeight="36.0" prefWidth="16.0" text="-">
          <font>
-            <Font size="14.0" />
+            <Font size="25.0" />
          </font>
-      </RadioButton>
-      <PasswordField layoutX="272.0" layoutY="310.0" prefHeight="32.0" prefWidth="194.0" promptText="Unesite lozinku za potvrdu" styleClass="textField" stylesheets="@app.css" />
+      </Label>
    </children>
 </AnchorPane>

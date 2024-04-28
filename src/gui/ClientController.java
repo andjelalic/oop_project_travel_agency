@@ -11,10 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import model.Admin;
-import model.Agencija;
-import model.Klijent;
-import model.Korisnik;
+import model.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -40,17 +37,12 @@ public class ClientController implements Initializable {
     @FXML
     private ComboBox<String> brojZvjezdica = new ComboBox<>();
 
-    @FXML
-    private TextField aranzmaniCijenaOd;
 
     @FXML
     private TextField aranzmaniCijenaDo;
 
     @FXML
-    private DatePicker datumPolaska;
-
-    @FXML
-    private DatePicker datumPovratka;
+    private TextField aranzmaniDestinacija;
 
     @FXML
     private ComboBox<String> tipPrevoza = new ComboBox<>();
@@ -60,9 +52,16 @@ public class ClientController implements Initializable {
 
     @FXML
     private ComboBox<String> vrstaSobe = new ComboBox<>();
-
     @FXML
-    private ListView<String> listaAranzmana;
+    private TextField datumePolaska;
+    @FXML
+    private TextField datumPovratka;
+    @FXML
+    private ListView<Aranzman> listaAranzmana = new ListView<>();
+    @FXML
+    private RadioButton rb1;
+    @FXML
+    private RadioButton rb2;
 
 
 
@@ -70,6 +69,7 @@ public class ClientController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        listaAranzmana.getItems().addAll(AranzmaniFilter.aranzmaniUPonudi(agencija.getAranzmani()));
 
         vrstaAranzmana.getItems().add(null);
         vrstaAranzmana.getItems().add("Izlet");
@@ -118,8 +118,23 @@ public class ClientController implements Initializable {
         AnchorPane view = FXMLLoader.load(getClass().getResource("napravi_rezervaciju.fxml"));
         borderPaneClient.setCenter(view);
 
+    }
 
-
+    @FXML
+    private void prikaziRezervacije(ActionEvent event) throws IOException, SQLException{
+        if (rb1.isSelected()) listaAranzmana.getItems().sort(Aranzman.porediCijenu);
+        if (rb2.isSelected()) listaAranzmana.getItems().sort(Aranzman.porediPremaDatumuPolaska);
+        listaAranzmana.getItems().setAll(AranzmaniFilter.filtrirajAranzmane(
+                        agencija.getAranzmani(),
+                        aranzmaniCijenaDo.getText(),
+                        aranzmaniDestinacija.getText(),
+                        brojZvjezdica.getValue(),
+                        vrstaSobe.getValue(),
+                        tipPrevoza.getValue(),
+                        datumePolaska.getText(),
+                        datumPovratka.getText()
+                )
+        );
     }
     public void switchToLogInK(ActionEvent event) throws IOException{
         Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));

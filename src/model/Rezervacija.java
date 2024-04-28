@@ -89,7 +89,7 @@ public class Rezervacija {
      */
     @Override
     public String toString() {
-        return klijent.getKorisnickoIme() + " " + aranzman.getIme() + " Ukupna cijena: " +  aranzman.punaCijena();
+        return klijent.getKorisnickoIme() + " " + aranzman.getNaziv() + " Ukupna cijena: " +  aranzman.punaCijena();
     }
 
     /**
