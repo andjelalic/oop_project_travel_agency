@@ -7,7 +7,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.Admin;
 import model.Agencija;
@@ -26,6 +28,8 @@ public class ClientController implements Initializable {
     }
     private Stage stage;
     private Scene scene;
+    @FXML
+    private BorderPane borderPaneClient;
     private Agencija agencija;
     private Klijent trenutniKlijent;
 
@@ -33,11 +37,58 @@ public class ClientController implements Initializable {
     private Label LblKorisnickoIme;
     @FXML
     private Label LblImePrezime;
+    @FXML
+    private ComboBox<String> brojZvjezdica = new ComboBox<>();
+
+    @FXML
+    private TextField aranzmaniCijenaOd;
+
+    @FXML
+    private TextField aranzmaniCijenaDo;
+
+    @FXML
+    private DatePicker datumPolaska;
+
+    @FXML
+    private DatePicker datumPovratka;
+
+    @FXML
+    private ComboBox<String> tipPrevoza = new ComboBox<>();
+
+    @FXML
+    private ComboBox<String> vrstaAranzmana = new ComboBox<>();
+
+    @FXML
+    private ComboBox<String> vrstaSobe = new ComboBox<>();
+
+    @FXML
+    private ListView<String> listaAranzmana;
+
+
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+
+        vrstaAranzmana.getItems().add(null);
+        vrstaAranzmana.getItems().add("Izlet");
+        vrstaAranzmana.getItems().add("Putovanje");
+
+        brojZvjezdica.getItems().add(null);
+        brojZvjezdica.getItems().add("Tri");
+        brojZvjezdica.getItems().add("Cetiri");
+        brojZvjezdica.getItems().add("Pet");
+
+        vrstaSobe.getItems().add(null);
+        vrstaSobe.getItems().add("Jednokrevetna");
+        vrstaSobe.getItems().add("Dvokrevetna");
+        vrstaSobe.getItems().add("Trokrevetna");
+
+        tipPrevoza.getItems().add(null);
+        tipPrevoza.getItems().add("Avion");
+        tipPrevoza.getItems().add("Autobus");
+        tipPrevoza.getItems().add("Samostalan");
     }
 
     public Klijent setKlijent(Klijent klijent) {
@@ -61,6 +112,14 @@ public class ClientController implements Initializable {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+    @FXML
+    private void switchToNapraviRezervaciju(ActionEvent event) throws IOException {
+        AnchorPane view = FXMLLoader.load(getClass().getResource("napravi_rezervaciju.fxml"));
+        borderPaneClient.setCenter(view);
+
+
+
     }
     public void switchToLogInK(ActionEvent event) throws IOException{
         Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
