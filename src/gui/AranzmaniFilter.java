@@ -16,16 +16,16 @@ public class AranzmaniFilter {
 
 
 
-    public static List<Aranzman> filtrirajAranzmane(List<Aranzman> aranzmani, String cijena, String destinacija, String broj_zvjezdica, String vrstaSobe, String prevoz, String datumPolaska, String datumDoaska) {
+    public static List<Aranzman> filtrirajAranzmane(List<Aranzman> aranzmani, String cijena, String destinacija, String broj_zvjezdica, String vrstaSobe, String prevoz, LocalDate datumPolaska, LocalDate datumDoaska) {
         return aranzmaniUPonudi(aranzmani)
                 .stream()
                 .filter(a -> cijena.isEmpty() || a.manjaOdDatogIznosa(Double.parseDouble(cijena)))
                 .filter(a -> destinacija.isEmpty() || a.podudaranjeDestinacije(destinacija))
                 .filter(a -> vrstaSobe == null || pomocniFilterVrstaSobe(a, vrstaSobe))
-                .filter(a -> broj_zvjezdica.isEmpty() || pomocniFilterZvjezdice(a, broj_zvjezdica))
+                .filter(a -> broj_zvjezdica == null || pomocniFilterZvjezdice(a, broj_zvjezdica))
                 .filter(a -> prevoz == null || a.podudaranjePrevoza(prevoz))
-                .filter(a -> datumPolaska.isEmpty() || a.jePoslije(LocalDate.parse(datumPolaska)))
-                .filter(a -> datumDoaska.isEmpty() || a.jePrije(LocalDate.parse(datumDoaska)))
+                .filter(a -> datumPolaska == null || a.jePoslije(datumPolaska))
+                .filter(a -> datumDoaska == null || a.jePrije(datumDoaska))
                 .toList();
     }
 

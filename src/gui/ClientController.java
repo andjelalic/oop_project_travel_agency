@@ -29,6 +29,7 @@ public class ClientController implements Initializable {
     private BorderPane borderPaneClient;
     private Agencija agencija;
     private Klijent trenutniKlijent;
+    private BankovniRacun bankovniRacun;
 
     @FXML
     private Label LblKorisnickoIme;
@@ -53,15 +54,17 @@ public class ClientController implements Initializable {
     @FXML
     private ComboBox<String> vrstaSobe = new ComboBox<>();
     @FXML
-    private TextField datumePolaska;
+    private DatePicker datumPolaska;
     @FXML
-    private TextField datumPovratka;
+    private DatePicker datumPovratka;
     @FXML
     private ListView<Aranzman> listaAranzmana = new ListView<>();
     @FXML
     private RadioButton rb1;
     @FXML
     private RadioButton rb2;
+    @FXML
+    private Label lblPorukaGreska;
 
 
 
@@ -76,9 +79,9 @@ public class ClientController implements Initializable {
         vrstaAranzmana.getItems().add("Putovanje");
 
         brojZvjezdica.getItems().add(null);
-        brojZvjezdica.getItems().add("Tri");
-        brojZvjezdica.getItems().add("Cetiri");
-        brojZvjezdica.getItems().add("Pet");
+        brojZvjezdica.getItems().add("3");
+        brojZvjezdica.getItems().add("4");
+        brojZvjezdica.getItems().add("5");
 
         vrstaSobe.getItems().add(null);
         vrstaSobe.getItems().add("Jednokrevetna");
@@ -118,12 +121,18 @@ public class ClientController implements Initializable {
         AnchorPane view = FXMLLoader.load(getClass().getResource("napravi_rezervaciju.fxml"));
         borderPaneClient.setCenter(view);
 
+
+
     }
 
     @FXML
     private void prikaziRezervacije(ActionEvent event) throws IOException, SQLException{
-        if (rb1.isSelected()) listaAranzmana.getItems().sort(Aranzman.porediCijenu);
-        if (rb2.isSelected()) listaAranzmana.getItems().sort(Aranzman.porediPremaDatumuPolaska);
+        rb1.setOnAction(event1 -> {
+            if (rb1.isSelected()) listaAranzmana.getItems().sort(Aranzman.porediCijenu);
+        });
+        rb2.setOnAction(event1 -> {
+            if (rb2.isSelected()) listaAranzmana.getItems().sort(Aranzman.porediPremaDatumuPolaska);
+        });
         listaAranzmana.getItems().setAll(AranzmaniFilter.filtrirajAranzmane(
                         agencija.getAranzmani(),
                         aranzmaniCijenaDo.getText(),
@@ -131,10 +140,33 @@ public class ClientController implements Initializable {
                         brojZvjezdica.getValue(),
                         vrstaSobe.getValue(),
                         tipPrevoza.getValue(),
-                        datumePolaska.getText(),
-                        datumPovratka.getText()
+                        datumPolaska.getValue(),
+                        datumPovratka.getValue()
                 )
         );
+    }
+    private void vecRezervisan(List<Rezervacija> rezervacije, Klijent klijent, Aranzman aranzman){
+        for (Rezervacija rezervacija : rezervacije)
+            if (rezervacija.isAlreadyReserved(klijent, aranzman))
+                lblPorukaGreska.setText("Aranžman je već rezervisan!");
+    }
+    @FXML
+    private void rezervisi(ActionEvent event) throws SQLException, UnsuccessfulReservationException {
+        Aranzman aranzman = listaAranzmana.getSelectionModel().getSelectedItem();
+        if(aranzman == null){
+            lblPorukaGreska.setText("Odaberite aranžman koji želite rezervisati!");
+
+            //to do exceptions implementirati;
+        }else {
+            lblPorukaGreska.setText("");
+            vecRezervisan(agencija.getRezervacije(), trenutniKlijent, aranzman);
+            MenadzerTransakcija.dovoljnoNovca(MenadzerTransakcija.getBankovniRacun(agencija.getBankovniRacuni(), trenutniKlijent.getBrojBankovnogRacuna()), aranzman.iznosUplate());
+            //naparaviti pop up gdje se unosi lozinka, kada se unese onda ide...
+            MenadzerTransakcija.izvrsiTransakciju(MenadzerTransakcija.getBankovniRacun(agencija.getBankovniRacuni(), trenutniKlijent.getBrojBankovnogRacuna()), agencija.getRacunAgencije(), aranzman.iznosUplate(), false);
+            lblPorukaGreska.setText("Uspjesno ste rezervisali aranžman!");
+
+
+        }
     }
     public void switchToLogInK(ActionEvent event) throws IOException{
         Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));

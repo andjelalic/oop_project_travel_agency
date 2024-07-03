@@ -33,12 +33,9 @@ public class BankovniRacun {
         this.stanje_racuna = stanje_racuna;
     }
 
-
-    /**
-     * Metoda koja proverava da li je bankovni račun pripada agenciji.
-     * Agencijski bankovni računi imaju JMBG dužine 10 karaktera.
-     * @return True ako je bankovni račun agencijski, inače False.
-     */
+    public boolean provjeraBroja(String s) {
+        return brojRacuna.equals(s);
+    }
     public boolean isAgencyBankAccount() {
         return jmbg.length() == 10;
     }

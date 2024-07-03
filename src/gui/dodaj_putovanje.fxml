@@ -7,12 +7,17 @@
 <?import javafx.scene.text.Font?>
 
 
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AdminController">
    <children>
       <TextField fx:id="destinacijaPutovanjaTf" layoutX="46.0" layoutY="86.0" promptText="Destinacija" styleClass="textField" stylesheets="@app.css" />
       <TextField fx:id="nazivPutovanjaTf" layoutX="46.0" layoutY="39.0" promptText="Naziv" styleClass="textField" stylesheets="@app.css" />
-      <TextField fx:id="datumPolaskaPutovanjaTf" layoutX="46.0" layoutY="184.0" promptText="Datum polaska" styleClass="textField" stylesheets="@app.css" />
-      <TextField fx:id="datumPovratkaPutovanjaTf" layoutX="46.0" layoutY="231.0" promptText="Datum povratka" styleClass="textField" stylesheets="@app.css" />
+      <DatePicker fx:id="datumPolaskaPutovanjaTf" layoutX="46.0" layoutY="184.0" promptText="Datum polaska" styleClass="textField" stylesheets="@app.css" />
+      <DatePicker fx:id="datumPovratkaPutovanjaTf" layoutX="46.0" layoutY="231.0" promptText="Datum povratka" styleClass="textField" stylesheets="@app.css" />
       <TextField fx:id="cijenaPutovanjaTf" layoutX="271.0" layoutY="39.0" promptText="Cijena aranžmana" styleClass="textField" stylesheets="@app.css" />
       <TextField fx:id="nazivSmjestajaTf" layoutX="271.0" layoutY="86.0" promptText="Naziv smještaja" styleClass="textField" stylesheets="@app.css" />
       <TextField fx:id="brojZvjezdicaTf" layoutX="271.0" layoutY="231.0" promptText="Broj zvjezdica" styleClass="textField" stylesheets="@app.css" />
@@ -28,7 +33,24 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="tipPrevozaTf" layoutX="48.0" layoutY="139.0" prefHeight="32.0" prefWidth="173.0" promptText="(Autobus, Avion, Samostalan )" styleClass="textField" stylesheets="@app.css" />
-      <TextField fx:id="vrstaSobeTf" layoutX="271.0" layoutY="139.0" prefHeight="32.0" prefWidth="173.0" promptText="(Jednokrevetna, Dvokrevetma, Trokrevetna,Apartman)" styleClass="textField" stylesheets="@app.css" />
+      <ComboBox fx:id="tipPrevozaTf" layoutX="48.0" layoutY="139.0" prefHeight="32.0" prefWidth="173.0" styleClass="textField" stylesheets="@app.css">
+         <items>
+            <FXCollections fx:factory="observableArrayList">
+               <String fx:value="Autobus" />
+               <String fx:value="Avion" />
+               <String fx:value="Samostalan" />
+            </FXCollections>
+         </items>
+      </ComboBox>
+      <ComboBox fx:id="vrstaSobeTf" layoutX="271.0" layoutY="139.0" prefHeight="32.0" prefWidth="173.0" styleClass="textField" stylesheets="@app.css">
+         <items>
+            <FXCollections fx:factory="observableArrayList">
+               <String fx:value="Jednokrevetna" />
+               <String fx:value="Dvokrevetma" />
+               <String fx:value="Trokrevetna" />
+               <String fx:value="Apartman" />
+            </FXCollections>
+         </items>
+      </ComboBox>
    </children>
 </AnchorPane>
