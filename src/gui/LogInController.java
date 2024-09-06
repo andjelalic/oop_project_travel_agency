@@ -154,10 +154,9 @@ public class LogInController implements Initializable{
         if (korisnickoImeLogIn.getText().isBlank() || lozinkaLogIn.getText().isBlank()) {
             logInMessageLabel.setText("Nedovoljno podataka za prijavu, popunite sva polja");
         } else if (!validnaPrijava(korisnickoImeLogIn.getText(), lozinkaLogIn.getText())) {
-            logInMessageLabel.setText("Unijeli ste nepostojece korisničko ime");
-        } else if (!validnaPrijava(korisnickoImeLogIn.getText(), lozinkaLogIn.getText())) {
-            logInMessageLabel.setText("Netačna lozinka");
-        } else if (vratiKorisnikaPoImenu(korisnickoImeLogIn.getText()) instanceof Admin) {
+            logInMessageLabel.setText("Unijeli ste nepostojece korisničko ime ili lozinku");
+        }
+         else if (vratiKorisnikaPoImenu(korisnickoImeLogIn.getText()) instanceof Admin) {
             // Dohvatimo referencu na AdminController
             FXMLLoader loader = new FXMLLoader(getClass().getResource("admin.fxml"));
             Parent root = loader.load();

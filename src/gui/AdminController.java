@@ -5,6 +5,7 @@ import baza.Identifiable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,15 +14,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.*;
-import javafx.fxml.Initializable;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class AdminController{
+public class AdminController implements Initializable {
     public AdminController() throws SQLException {
         this.agencija = new Agencija();
     }
@@ -89,12 +89,39 @@ public class AdminController{
     private Label dodajIzletStatusLbl;
     @FXML
     private Label dodajIzletErrorLbl;
+    @FXML
+    private Label info;
+    @FXML
+    private Label info1;
+    @FXML
+    private Label otkaz_poruka;
 
-
+    @FXML
+    private ListView<Rezervacija> rezervacijeListView = new ListView<>();
+    @FXML
+    private ListView<Aranzman> aranzmaniListView = new ListView<>();
 
 
     private Agencija agencija;
     private Admin trenutniAdmin;
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        rezervacijeListView.getItems().addAll(agencija.getRezervacije());
+        aranzmaniListView.getItems().addAll(AranzmaniFilter.aranzmaniUPonudi(agencija.getAranzmani()));
+    }
+    @FXML
+    private void prikaziIzabranuRezervaciju(ActionEvent event) {
+
+        Rezervacija selectedRezervacija = rezervacijeListView.getSelectionModel().getSelectedItem();
+
+        if (selectedRezervacija != null) {
+
+            info.setText(""+PregledRezervacijaAdmin.pronadjiKlijente(agencija.getRezervacije(), selectedRezervacija.getAranzman()));
+            info1.setText(""+PregledRezervacijaAdmin.prikaziInformacije(selectedRezervacija));
+        } else {
+            info.setText("Niste izabrali nijednu rezervaciju.");
+            info1.setText("");
+        }
+    }
 
 
     public Admin setAdmin(Admin admin) {
@@ -155,13 +182,7 @@ public class AdminController{
         AnchorPane view = FXMLLoader.load(getClass().getResource("rezervacije.fxml"));
         borderPane.setCenter(view);
 
-        Label rezervacijeLbl = (Label) view.lookup("#rezervacijeLbl");
 
-        if (agencija.getRezervacije().isEmpty()) {
-            rezervacijeLbl.setText("Nema rezervacija");
-        } else {
-            rezervacijeLbl.setText(agencija.getRezervacije().toString());
-        }
     }
 
     public void naDugme(ActionEvent event) throws SQLException, IOException{
@@ -205,6 +226,18 @@ public class AdminController{
             }
         }
         return false;
+    }
+    public void otkaziAranzman(ActionEvent event) throws SQLException {
+        Aranzman aranzman = aranzmaniListView.getSelectionModel().getSelectedItem();
+
+        if(aranzman!= null){
+            UpravljanjeAranzman.povratNovca(agencija.getBankovniRacuni(), agencija.getRezervacije(), aranzman, agencija.getRacunAgencije());
+            UpravljanjeAranzman.obrisiAranzman(agencija.getRezervacije(), agencija.getAranzmani(), agencija.getSmestaji(), aranzman);
+            otkaz_poruka.setText("Otkazali ste aranžman!");
+        }else{
+            otkaz_poruka.setText("Izaberite aranžman!");
+        }
+
     }
 
     public void dodajAdminaBtnOnAction(ActionEvent event) throws SQLException, IOException{

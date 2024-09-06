@@ -42,4 +42,5 @@ public class AranzmaniFilter {
                 .map(s -> s.getBrojZvjezdica() == Integer.parseInt(brojZvjezdicaa))
                 .orElse(false);
     }
+
 }
