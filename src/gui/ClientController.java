@@ -74,6 +74,10 @@ public class ClientController {
 
     }
     @FXML
+    private void promijeniLozinkuOnBtn(ActionEvent event){
+        MenadzerLozinki.promijeniLozinkuEvnt(trenutniKlijent, "klijent");
+    }
+    @FXML
     private void switchToRezervacije(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("upravljaj_rezervacijama.fxml"));
         AnchorPane view = loader.load();

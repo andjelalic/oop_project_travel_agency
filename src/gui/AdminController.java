@@ -172,6 +172,10 @@ public class AdminController implements Initializable {
         stage.show();
     }
     @FXML
+    private void promijeniLozinkuOnBtn(ActionEvent event){
+        MenadzerLozinki.promijeniLozinkuEvnt(trenutniAdmin, "admin");
+    }
+    @FXML
     private void switchToDodajAdmina(ActionEvent event) throws IOException{
         AnchorPane view = FXMLLoader.load(getClass().getResource("admin_dodaj.fxml"));
         borderPane.setCenter(view);
